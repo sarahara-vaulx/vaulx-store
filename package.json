@@ -1,0 +1,11 @@
+{
+  "name": "vaulx-store",
+  "version": "1.0.0",
+  "description": "VAULX — Premium Affiliate Store with Fiuu Payment Gateway",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "dependencies": {},
+  "scripts": {
+    "dev": "npx serve public -p 3000"
+  }
+}
