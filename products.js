@@ -1,19 +1,12 @@
-/**
- * VAULX Products Catalog
- * ─────────────────────────────────────────────────
- * Replace `affiliateUrl` with your Amazon affiliate links.
- * Format: https://www.amazon.com/dp/ASIN/?tag=vaulxstore-20
- * ─────────────────────────────────────────────────
- */
 const PRODUCTS = [
-  { id:1, name:'AirPods Pro 3rd Gen',      category:'Tech',    icon:'🎧', desc:'Active noise cancellation, spatial audio, adaptive transparency.', price:249,           badge:'new',  affiliateUrl:'https://www.amazon.com/dp/B0CHWRXH8B/?tag=vaulxstore-20' },
-  { id:2, name:'Dyson V15 Detect',         category:'Home',    icon:'🌀', desc:'Laser dust detection, up to 60 min runtime, HEPA filtration.',     price:649, orig:699, badge:'sale', affiliateUrl:'https://www.amazon.com/dp/B09JNMWN4T/?tag=vaulxstore-20' },
-  { id:3, name:'Kindle Scribe',            category:'Tech',    icon:'📖', desc:'10.2" 300 ppi display, handwriting to text, 3-month battery.',     price:339,           badge:'hot',  affiliateUrl:'https://www.amazon.com/dp/B09BS26B8B/?tag=vaulxstore-20' },
-  { id:4, name:'Le Creuset Dutch Oven',    category:'Kitchen', icon:'🍲', desc:'5.5 qt cast iron, lifetime warranty, 30+ color options.',          price:399, orig:480, badge:'sale', affiliateUrl:'https://www.amazon.com/dp/B00006ISKF/?tag=vaulxstore-20' },
-  { id:5, name:'Nike Air Max 270',         category:'Fashion', icon:'👟', desc:'Max Air heel unit, breathable mesh, all-day comfort.',             price:150,           badge:'',     affiliateUrl:'https://www.amazon.com/dp/B07DPBKPCD/?tag=vaulxstore-20' },
-  { id:6, name:'Laneige Lip Sleeping Mask',category:'Beauty',  icon:'💄', desc:'Overnight hydration, berry scent, vitamin C brightening.',         price:24,            badge:'hot',  affiliateUrl:'https://www.amazon.com/dp/B01MFABOWM/?tag=vaulxstore-20' },
-  { id:7, name:'Theragun Elite',           category:'Health',  icon:'⚡', desc:'Percussive therapy, 5 speeds, QuietForce technology.',             price:299, orig:375, badge:'sale', affiliateUrl:'https://www.amazon.com/dp/B08BF4PTHV/?tag=vaulxstore-20' },
-  { id:8, name:'Philips Hue Starter Kit',  category:'Home',    icon:'💡', desc:'4 color bulbs + bridge, 16M colors, voice assistant ready.',       price:199,           badge:'new',  affiliateUrl:'https://www.amazon.com/dp/B014H2P8ME/?tag=vaulxstore-20' },
+  { id:1, name:'Dyson Airwrap i.d. Multi-Styler', category:'Beauty', icon:'💫', desc:'Bluetooth connected, no heat damage, 6-in-1 versatility. Allure winner.', price:649, badge:'hot', affiliateUrl:'https://www.amazon.com/dp/B0DQVKSHGN/?tag=vaulxstore-20' },
+  { id:2, name:'La Mer Moisturizing Cream 3.4oz', category:'Beauty', icon:'✨', desc:'Iconic Crème de la Mer. Heals dryness, infuses skin with all-day moisture.', price:395, badge:'new', affiliateUrl:'https://www.amazon.com/dp/B00BH4KLJI/?tag=vaulxstore-20' },
+  { id:3, name:'SK-II Facial Treatment Essence', category:'Beauty', icon:'💧', desc:'Anti-aging essence. Reduces fine lines, refines texture, improves firmness.', price:185, badge:'hot', affiliateUrl:'https://www.amazon.com/dp/B00ACRWTSI/?tag=vaulxstore-20' },
+  { id:4, name:'Dyson Airwrap Origin Multi-Styler', category:'Beauty', icon:'🌀', desc:'3 styling attachments, Coanda airflow, dry curl and shape with no heat damage.', price:399, orig:550, badge:'sale', affiliateUrl:'https://www.amazon.com/dp/B0DMXJXWH3/?tag=vaulxstore-20' },
+  { id:5, name:'La Mer Moisturizing Soft Cream', category:'Beauty', icon:'🌸', desc:'Lightweight version of the iconic La Mer cream. Perfect for normal to oily skin.', price:215, badge:'new', affiliateUrl:'https://www.amazon.com/dp/B00OPXDJCE/?tag=vaulxstore-20' },
+  { id:6, name:'Laneige Lip Sleeping Mask', category:'Beauty', icon:'💄', desc:'Overnight hydration, berry scent, vitamin C brightening. Best seller!', price:24, badge:'hot', affiliateUrl:'https://www.amazon.com/dp/B01MFABOWM/?tag=vaulxstore-20' },
+  { id:7, name:'Dyson V15 Detect Vacuum', category:'Home', icon:'🌪️', desc:'Laser dust detection, up to 60 min runtime, HEPA filtration.', price:649, orig:749, badge:'sale', affiliateUrl:'https://www.amazon.com/dp/B09JNMWN4T/?tag=vaulxstore-20' },
+  { id:8, name:'AirPods Pro 3rd Gen', category:'Tech', icon:'🎧', desc:'Active noise cancellation, spatial audio, adaptive transparency.', price:249, badge:'new', affiliateUrl:'https://www.amazon.com/dp/B0CHWRXH8B/?tag=vaulxstore-20' },
 ];
 
 function renderProducts(filter = 'all') {
