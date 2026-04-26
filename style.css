@@ -234,4 +234,54 @@ footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border);ma
   color: #aaa;
   font-size: 12px;
 }
+/* ===== THUMBNAIL STRIP (sa bawat product card) ===== */
+.thumb-strip {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.thumb-strip::-webkit-scrollbar { display: none; }
+
+.thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s;
+}
+.thumb.active,
+.thumb:hover {
+  border-color: #e07b39;
+}
+
+/* ===== LIGHTBOX THUMBNAILS ===== */
+.lightbox-thumbs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 90vw;
+}
+
+.lb-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+.lb-thumb:hover,
+.lb-thumb.active {
+  opacity: 1;
+  border-color: #fff;
+}
+/* ===== END THUMBNAILS ===== */
 /* ===== END ZOOM ===== */
