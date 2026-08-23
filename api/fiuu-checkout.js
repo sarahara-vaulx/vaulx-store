@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
     const merchantId = process.env.FIUU_MERCHANT_ID;
     const verifyKey  = process.env.FIUU_VERIFY_KEY;
     const siteUrl    = (process.env.SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
-    const isSandbox  = process.env.FIUU_SANDBOX === 'true' || process.env.NODE_ENV !== 'production';
+    const isSandbox  = String(process.env.FIUU_SANDBOX || '').trim().toLowerCase() === 'true';
 
     if (!merchantId || !verifyKey) {
       return res.status(500).json({ error: 'Missing FIUU_MERCHANT_ID or FIUU_VERIFY_KEY env vars.' });
@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
 
     /* ── Build payment page URL ── */
     const baseUrl = isSandbox ? FIUU_SANDBOX_URL : FIUU_PROD_URL;
-    const paymentUrl = `${baseUrl}/${merchantId}`;
+    const paymentUrl = `${baseUrl}/${merchantId}/`;
 
     /* ── Form fields to POST to Fiuu ── */
     const formData = {
