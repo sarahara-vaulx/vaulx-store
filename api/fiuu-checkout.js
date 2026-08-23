@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
       bill_email:  billEmail,
       bill_mobile: billPhone || '',
       bill_desc:   billDesc  || 'VAULX Order',
-      country:     'PH',          // change to your primary country ISO code
+      country:  req.body.country || 'PH',
       currency:    currency,
       vcode:       vcode,
       returnurl:   `${siteUrl}/return.html`,
