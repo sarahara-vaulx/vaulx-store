@@ -18,7 +18,7 @@
 const crypto = require('crypto');
 
 const FIUU_SANDBOX_URL = 'https://pg-sandbox.e2pay.co.id/RMS/pay';
-const FIUU_PROD_URL    = 'https://pg.e2pay.co.id/RMS/pay';
+const FIUU_PROD_URL    = 'https://pay.fiuu.com/RMS/pay';
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
