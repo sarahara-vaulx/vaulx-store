@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VAULX Shop — On-Hand Items</title>
   <style>
-    :root { --black:#0a0a0a; --gold:#c9a96e; --gold2:#e8c97a; --white:#fff; --gray:#111; --gray2:#1a1a1a; }
+    :root { --black:#0a0a0a; --gold:#c9a96e; --gold2:#e8c97a; --white:#fff; --gray:#111; --red:#c0392b; --green:#60d880; }
     *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
     body { background:var(--black); color:var(--white); font-family:Georgia,serif; }
 
@@ -19,51 +19,71 @@
     .hero { padding:3rem 2rem 2.5rem; text-align:center; border-bottom:1px solid rgba(201,169,110,.12); }
     .hero h1 { color:var(--gold); font-size:2.2rem; letter-spacing:.35em; margin-bottom:.5rem; }
     .hero p  { color:rgba(255,255,255,.45); font-size:.88rem; letter-spacing:.06em; }
+    .hero .flash { display:inline-block; margin-top:1rem; background:var(--red); color:#fff; font-size:.7rem; font-weight:bold; letter-spacing:.16em; padding:.4rem 1.1rem; border-radius:2px; }
 
     /* GRID */
     main { max-width:1200px; margin:0 auto; padding:3rem 1.5rem; }
     .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(265px,1fr)); gap:1.5rem; }
 
     /* CARD */
-    .card { background:var(--gray); border:1px solid rgba(201,169,110,.14); border-radius:3px; overflow:hidden; transition:border-color .25s,transform .25s; }
+    .card { position:relative; background:var(--gray); border:1px solid rgba(201,169,110,.14); border-radius:3px; overflow:hidden; transition:border-color .25s,transform .25s; }
     .card:hover { border-color:rgba(201,169,110,.55); transform:translateY(-3px); }
-    .card-img { width:100%; height:200px; object-fit:cover; display:block; }
-    .card-ph  { width:100%; height:200px; background:linear-gradient(135deg,#161616,#222); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; }
+    .ribbon { position:absolute; top:12px; left:0; background:var(--red); color:#fff; font-size:.6rem; font-weight:bold; letter-spacing:.14em; padding:.3rem .75rem; z-index:5; }
+
+    /* GALLERY */
+    .gal-main { width:100%; height:210px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; cursor:zoom-in; }
+    .gal-main img { width:100%; height:100%; object-fit:contain; }
+    .card-ph { width:100%; height:210px; background:linear-gradient(135deg,#161616,#222); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; }
     .card-ph .pi { font-size:2.5rem; }
     .card-ph .pl { color:rgba(255,255,255,.18); font-size:.65rem; letter-spacing:.12em; }
+    .thumbs { display:flex; gap:.3rem; padding:.4rem; background:#0d0d0d; }
+    .thumb { width:44px; height:44px; background:#fff; border:1px solid rgba(201,169,110,.2); border-radius:2px; overflow:hidden; cursor:pointer; flex-shrink:0; transition:border-color .2s; }
+    .thumb.on { border-color:var(--gold); }
+    .thumb img { width:100%; height:100%; object-fit:contain; }
+
     .card-body { padding:1.2rem; }
     .badge { display:inline-block; font-size:.67rem; letter-spacing:.08em; padding:.2rem .55rem; border-radius:20px; margin-bottom:.7rem; }
     .b-low { background:rgba(255,80,80,.1); color:#ff8080; border:1px solid rgba(255,80,80,.2); }
-    .b-ok  { background:rgba(80,200,110,.1); color:#60d880; border:1px solid rgba(80,200,110,.2); }
+    .b-ok  { background:rgba(80,200,110,.1); color:var(--green); border:1px solid rgba(80,200,110,.2); }
     .card-name  { font-size:.87rem; line-height:1.45; margin-bottom:.9rem; min-height:2.5rem; }
+    .price-row  { display:flex; align-items:baseline; flex-wrap:wrap; gap:.5rem; }
+    .price-old  { font-size:.85rem; color:rgba(255,255,255,.3); text-decoration:line-through; }
     .card-price { font-size:1.3rem; color:var(--gold); font-weight:bold; }
-    .tag-disc   { font-size:.66rem; letter-spacing:.08em; background:rgba(201,169,110,.1); border:1px solid rgba(201,169,110,.2); color:var(--gold); padding:.14rem .4rem; border-radius:2px; margin-left:.4rem; vertical-align:middle; }
+    .tag-disc   { font-size:.62rem; letter-spacing:.08em; background:var(--red); color:#fff; padding:.16rem .42rem; border-radius:2px; font-weight:bold; }
+    .price-save { font-size:.68rem; color:var(--green); letter-spacing:.04em; margin-top:.32rem; }
     .btn-buy    { display:block; width:100%; margin-top:1rem; padding:.75rem; background:var(--gold); color:var(--black); border:none; font-size:.8rem; letter-spacing:.2em; font-weight:bold; cursor:pointer; transition:background .2s; border-radius:1px; }
     .btn-buy:hover { background:var(--gold2); }
-    .btn-buy:disabled { opacity:.35; cursor:not-allowed; }
+
+    /* LIGHTBOX */
+    .lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.94); z-index:400; align-items:center; justify-content:center; padding:2rem; cursor:zoom-out; }
+    .lb.open { display:flex; }
+    .lb img { max-width:92%; max-height:88%; object-fit:contain; background:#fff; border-radius:3px; }
+    .lb-x { position:absolute; top:1.2rem; right:1.6rem; color:var(--gold); font-size:2rem; cursor:pointer; line-height:1; }
 
     /* MODAL */
     .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:300; align-items:center; justify-content:center; padding:1rem; }
     .overlay.open { display:flex; }
-    .modal { background:var(--gray); border:1px solid var(--gold); border-radius:3px; width:100%; max-width:390px; padding:2rem; }
+    .modal { background:var(--gray); border:1px solid var(--gold); border-radius:3px; width:100%; max-width:390px; padding:2rem; max-height:92vh; overflow-y:auto; }
     .mo-title { color:var(--gold); font-size:.92rem; letter-spacing:.25em; margin-bottom:.35rem; }
     .mo-sub   { font-size:.78rem; color:rgba(255,255,255,.42); line-height:1.4; margin-bottom:1.4rem; }
     .field { margin-bottom:.9rem; }
     .field label { display:block; font-size:.68rem; letter-spacing:.12em; color:var(--gold); margin-bottom:.28rem; }
     .field input,.field select { width:100%; padding:.62rem .75rem; background:#0a0a0a; border:1px solid rgba(201,169,110,.22); color:var(--white); font-size:.87rem; border-radius:2px; transition:border-color .2s; }
     .field input:focus,.field select:focus { outline:none; border-color:var(--gold); }
-    .total-box { background:rgba(201,169,110,.06); border:1px solid rgba(201,169,110,.16); border-radius:2px; padding:.75rem 1rem; margin:.9rem 0 1.2rem; display:flex; justify-content:space-between; align-items:center; }
+    .total-box { background:rgba(201,169,110,.06); border:1px solid rgba(201,169,110,.16); border-radius:2px; padding:.75rem 1rem; margin:.9rem 0 1.2rem; }
+    .total-line { display:flex; justify-content:space-between; align-items:center; }
     .total-label  { font-size:.72rem; letter-spacing:.1em; color:rgba(255,255,255,.45); }
     .total-amount { font-size:1.25rem; color:var(--gold); font-weight:bold; }
+    .total-save { font-size:.68rem; color:var(--green); margin-top:.35rem; text-align:right; }
     .mo-btns { display:flex; gap:.75rem; }
-    .btn-cancel2 { flex:1; padding:.72rem; background:transparent; border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.5); cursor:pointer; font-size:.78rem; border-radius:1px; transition:border-color .2s; }
+    .btn-cancel2 { flex:1; padding:.72rem; background:transparent; border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.5); cursor:pointer; font-size:.78rem; border-radius:1px; }
     .btn-cancel2:hover { border-color:rgba(255,255,255,.3); }
-    .btn-pay2 { flex:2; padding:.72rem; background:var(--gold); color:var(--black); border:none; font-weight:bold; font-size:.82rem; letter-spacing:.1em; cursor:pointer; border-radius:1px; transition:background .2s; }
+    .btn-pay2 { flex:2; padding:.72rem; background:var(--gold); color:var(--black); border:none; font-weight:bold; font-size:.82rem; letter-spacing:.1em; cursor:pointer; border-radius:1px; }
     .btn-pay2:hover { background:var(--gold2); }
     .btn-pay2:disabled { opacity:.4; cursor:not-allowed; }
     .mo-loading { text-align:center; font-size:.78rem; color:rgba(255,255,255,.45); margin-top:.75rem; display:none; }
 
-    footer { text-align:center; padding:2rem; border-top:1px solid rgba(201,169,110,.1); color:rgba(255,255,255,.2); font-size:.73rem; letter-spacing:.05em; margin-top:3rem; }
+    footer { text-align:center; padding:2rem; border-top:1px solid rgba(201,169,110,.1); color:rgba(255,255,255,.2); font-size:.73rem; margin-top:3rem; }
   </style>
 </head>
 <body>
@@ -78,12 +98,13 @@
 
 <div class="hero">
   <h1>VAULX SHOP</h1>
-  <p>On-hand items · Ready to ship · 25% off retail</p>
+  <p>On-hand items · Ready to ship · Direct checkout</p>
+  <div class="flash" id="flash-tag">LIMITED SALE</div>
 </div>
 
-<main>
-  <div class="grid" id="grid"></div>
-</main>
+<main><div class="grid" id="grid"></div></main>
+
+<div class="lb" id="lb"><span class="lb-x" id="lb-x">&times;</span><img id="lb-img" src="" alt=""></div>
 
 <div class="overlay" id="overlay">
   <div class="modal">
@@ -94,8 +115,8 @@
     <div class="field"><label>MOBILE / WHATSAPP</label><input id="f-phone" type="tel" placeholder="+63 9XX XXX XXXX" autocomplete="tel"></div>
     <div class="field"><label>QUANTITY</label><select id="f-qty"></select></div>
     <div class="total-box">
-      <span class="total-label">ORDER TOTAL</span>
-      <span class="total-amount" id="total-show">$0.00</span>
+      <div class="total-line"><span class="total-label">ORDER TOTAL</span><span class="total-amount" id="total-show">$0.00</span></div>
+      <div class="total-save" id="total-save"></div>
     </div>
     <div class="mo-btns">
       <button class="btn-cancel2" id="btn-close">CANCEL</button>
@@ -109,53 +130,144 @@
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
-   PRODUCTS — to add images, pick ONE option per product:
+   DISCOUNT CONTROL — change this ONE number to adjust all sale prices.
+     25 → $27.30, $21.23, etc.    |    15 → $30.94, $24.06, etc.
+═══════════════════════════════════════════════════════════════════════ */
+const SALE_PCT = 25;
 
-   Option A – Google Drive (must be set to "Anyone with the link"):
-     1. Open the file in Drive → Share → "Anyone with the link"
-     2. Copy the file ID from: drive.google.com/file/d/[FILE_ID_HERE]/view
-     3. Set img: "https://drive.google.com/uc?export=view&id=FILE_ID_HERE"
+/* ═══════════════════════════════════════════════════════════════════════
+   PRODUCTS — MULTIPLE IMAGES SUPPORTED
 
-   Option B – GitHub upload (more reliable, recommended):
-     1. In your GitHub repo, Add file → Upload files → upload to /images/ folder
-     2. Set img: "/images/your-filename.jpg"
+   Each product has an `imgs` array. Upload your photos to GitHub under
+   an /images/ folder using these exact filenames. The FIRST image in
+   each array is the one shown by default.
 
-   Leave img:"" to keep the emoji placeholder.
+   Naming pattern:  productname-1.jpg, productname-2.jpg, productname-3.jpg
+
+   Have more than 3 photos? Just add another entry:
+     imgs:["/images/cirkul-1.jpg","/images/cirkul-2.jpg",
+           "/images/cirkul-3.jpg","/images/cirkul-4.jpg"]
+
+   Have only 1 photo? Just list one:
+     imgs:["/images/white-tea-1.jpg"]
+
+   Using PNG instead of JPG? Change .jpg to .png for that product.
+
+   Missing images fall back to the emoji placeholder automatically —
+   nothing breaks while you're still uploading.
 ═══════════════════════════════════════════════════════════════════════ */
 const PRODUCTS = [
-  { id:1, name:"One Love Beauty Vitamin B Enzyme Cleansing Oil + Makeup Remover 4oz", price:27.30, stock:10, img:"", icon:"🧴" },
-  { id:2, name:"Gen See Mixed Media Matte Liquid Eyeshadow – Rose Water",              price:21.23, stock:10, img:"", icon:"💄" },
-  { id:3, name:"Keratin Restorative Hair Mask 500ml / 16.9 fl.oz",                    price:23.25, stock:19, img:"", icon:"💆" },
-  { id:4, name:"Typology Tinted Serum with Vitamin C, Squalane & Aloe Vera",          price:35.55, stock:8,  img:"", icon:"✨" },
-  { id:5, name:'Mussel Bound Adhesive Tile Mat Mini Roll 3"×15"',                     price:14.53, stock:14, img:"", icon:"🏠" },
-  { id:6, name:"Prince of Peace Organic White Tea 20 bags",                           price:3.38,  stock:38, img:"", icon:"🍵" },
-  { id:7, name:"ENHYPEN ROMANCE: UNTOLD 2nd Full Album Standard 3 Ver Set",           price:21.37, stock:4,  img:"", icon:"💿" },
-  { id:8, name:"Cirkul 12oz Plastic Water Bottle Starter Kit",                        price:16.86, stock:50, img:"", icon:"💧" },
-  { id:9, name:"Typology Serum Mascara with 1% Pea Peptides + Castor Oil",            price:23.10, stock:5,  img:"", icon:"👁️" }
+  { id:1, name:"One Love Beauty Vitamin B Enzyme Cleansing Oil + Makeup Remover 4oz",
+    retail:36.40, stock:10, icon:"🧴",
+    imgs:["/images/cleansing-oil-1.jpg","/images/cleansing-oil-2.jpg","/images/cleansing-oil-3.jpg"] },
+
+  { id:2, name:"Gen See Mixed Media Matte Liquid Eyeshadow – Rose Water",
+    retail:28.30, stock:10, icon:"💄",
+    imgs:["/images/eyeshadow-1.jpg","/images/eyeshadow-2.jpg","/images/eyeshadow-3.jpg"] },
+
+  { id:3, name:"Keratin Restorative Hair Mask 500ml / 16.9 fl.oz",
+    retail:31.00, stock:19, icon:"💆",
+    imgs:["/images/hair-mask-1.jpg","/images/hair-mask-2.jpg","/images/hair-mask-3.jpg"] },
+
+  { id:4, name:"Typology Tinted Serum with Vitamin C, Squalane & Aloe Vera – Type 4 Tan",
+    retail:47.40, stock:8, icon:"✨",
+    imgs:["/images/tinted-serum-1.jpg"] },
+
+  { id:5, name:"MusselBound Adhesive Tile Mat Mini Roll 3\" × 15'",
+    retail:19.37, stock:14, icon:"🏠",
+    imgs:["/images/tile-mat-1.jpg","/images/tile-mat-2.jpg","/images/tile-mat-3.jpg"] },
+
+  { id:6, name:"Prince of Peace Organic White Tea 20 bags",
+    retail:4.51, stock:38, icon:"🍵",
+    imgs:["/images/white-tea.jpg"] },
+
+  { id:7, name:"ENHYPEN ROMANCE: UNTOLD 2nd Full Album Standard 3 Ver Set",
+    retail:28.49, stock:4, icon:"💿",
+    imgs:["/images/enhypen-1.jpg","/images/enhypen-2.jpg","/images/enhypen-3.jpg"] },
+
+  { id:8, name:"Cirkul 12oz Plastic Water Bottle Starter Kit + 2 Flavor Cartridges",
+    retail:22.48, stock:50, icon:"💧",
+    imgs:["/images/cirkul-1.jpg","/images/cirkul-2.jpg","/images/cirkul-3.jpg"] },
+
+  { id:9, name:"Typology Serum Mascara with 1% Pea Peptides + Castor Oil",
+    retail:30.80, stock:5, icon:"👁️",
+    imgs:["/images/mascara-1.jpg"] }
 ];
 
+const salePrice = p => +(p.retail * (1 - SALE_PCT/100)).toFixed(2);
+const savings   = p => +(p.retail - salePrice(p)).toFixed(2);
+const esc       = s => String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
 let active = null;
+
+document.getElementById('flash-tag').textContent = `LIMITED SALE — ${SALE_PCT}% OFF EVERYTHING`;
 
 function render() {
   document.getElementById('grid').innerHTML = PRODUCTS.map(p => {
     const badge = p.stock <= 5
       ? `<span class="badge b-low">⚠ Only ${p.stock} left</span>`
       : `<span class="badge b-ok">✓ In stock (${p.stock})</span>`;
-    const img = p.img
-      ? `<img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy">`
-      : `<div class="card-ph"><div class="pi">${p.icon}</div><div class="pl">IMAGE COMING SOON</div></div>`;
+
+    const list = p.imgs || [];
+    const gallery = list.length ? `
+      <div class="gal-main" id="main-${p.id}" onclick="zoom(${p.id})">
+        <img src="${list[0]}" alt="${esc(p.name)}" loading="lazy" onerror="fallback(${p.id})">
+      </div>
+      ${list.length > 1 ? `<div class="thumbs">${list.map((src,i) => `
+        <div class="thumb ${i===0?'on':''}" onclick="swap(${p.id},${i})">
+          <img src="${src}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+        </div>`).join('')}</div>` : ''}
+    ` : `<div class="card-ph" id="main-${p.id}"><div class="pi">${p.icon}</div><div class="pl">IMAGE COMING SOON</div></div>`;
+
     return `
       <div class="card">
-        ${img}
+        <div class="ribbon">SALE</div>
+        ${gallery}
         <div class="card-body">
           ${badge}
           <div class="card-name">${p.name}</div>
-          <div class="card-price">$${p.price.toFixed(2)}<span class="tag-disc">25% OFF</span></div>
+          <div class="price-row">
+            <span class="price-old">$${p.retail.toFixed(2)}</span>
+            <span class="card-price">$${salePrice(p).toFixed(2)}</span>
+            <span class="tag-disc">${SALE_PCT}% OFF</span>
+          </div>
+          <div class="price-save">You save $${savings(p).toFixed(2)}</div>
           <button class="btn-buy" onclick="openModal(${p.id})">BUY NOW</button>
         </div>
       </div>`;
   }).join('');
 }
+
+/* Swap main image when a thumbnail is clicked */
+function swap(pid, idx) {
+  const p = PRODUCTS.find(x => x.id === pid);
+  const box = document.getElementById('main-' + pid);
+  const im = box && box.querySelector('img');
+  if (!p || !im) return;
+  im.src = p.imgs[idx];
+  const card = box.closest('.card');
+  card.querySelectorAll('.thumb').forEach((t,i) => t.classList.toggle('on', i === idx));
+}
+
+/* Replace main image area with emoji placeholder if the file is missing */
+function fallback(pid) {
+  const p = PRODUCTS.find(x => x.id === pid);
+  const box = document.getElementById('main-' + pid);
+  if (!p || !box) return;
+  box.className = 'card-ph';
+  box.onclick = null;
+  box.innerHTML = `<div class="pi">${p.icon}</div><div class="pl">IMAGE COMING SOON</div>`;
+}
+
+/* Fullscreen zoom */
+function zoom(pid) {
+  const box = document.getElementById('main-' + pid);
+  const im = box && box.querySelector('img');
+  if (!im) return;
+  document.getElementById('lb-img').src = im.src;
+  document.getElementById('lb').classList.add('open');
+}
+document.getElementById('lb').addEventListener('click', () => document.getElementById('lb').classList.remove('open'));
 
 function openModal(id) {
   active = PRODUCTS.find(p => p.id === id);
@@ -179,12 +291,16 @@ function closeModal() {
 function refreshTotal() {
   if (!active) return;
   const qty = +document.getElementById('f-qty').value || 1;
-  document.getElementById('total-show').textContent = `$${(active.price * qty).toFixed(2)}`;
+  document.getElementById('total-show').textContent = `$${(salePrice(active)*qty).toFixed(2)}`;
+  document.getElementById('total-save').textContent = `You save $${(savings(active)*qty).toFixed(2)}`;
 }
 
 document.getElementById('f-qty').addEventListener('change', refreshTotal);
 document.getElementById('btn-close').addEventListener('click', closeModal);
 document.getElementById('overlay').addEventListener('click', e => { if (e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); document.getElementById('lb').classList.remove('open'); }
+});
 
 document.getElementById('btn-pay').addEventListener('click', async () => {
   const name  = document.getElementById('f-name').value.trim();
@@ -201,32 +317,28 @@ document.getElementById('btn-pay').addEventListener('click', async () => {
   msg.style.display = 'block';
 
   const orderId = `VAULX-${Date.now()}`;
-  const amount  = (active.price * qty).toFixed(2);
+  const amount  = (salePrice(active) * qty).toFixed(2);
 
   try {
     const res = await fetch('/api/fiuu-checkout', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        orderId,
-        amount,
-        billName:  name,
-        billEmail: email,
-        billPhone: phone,
-        billDesc:  `${active.name} x${qty}`,
-        currency:  'USD'
+        orderId, amount,
+        billName:name, billEmail:email, billPhone:phone,
+        billDesc:`${active.name} x${qty}`,
+        currency:'USD'
       })
     });
     if (!res.ok) throw new Error('Server error ' + res.status);
 
     const { paymentUrl, formData } = await res.json();
 
-    // Build and auto-submit form to Fiuu payment page
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = paymentUrl;
     form.style.display = 'none';
-    Object.entries(formData).forEach(([k, v]) => {
+    Object.entries(formData).forEach(([k,v]) => {
       const inp = document.createElement('input');
       inp.type = 'hidden'; inp.name = k; inp.value = v;
       form.appendChild(inp);
