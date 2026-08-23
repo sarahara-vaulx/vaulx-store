@@ -83,7 +83,11 @@
     .btn-pay2:disabled { opacity:.4; cursor:not-allowed; }
     .mo-loading { text-align:center; font-size:.78rem; color:rgba(255,255,255,.45); margin-top:.75rem; display:none; }
 
-    footer { text-align:center; padding:2rem; border-top:1px solid rgba(201,169,110,.1); color:rgba(255,255,255,.2); font-size:.73rem; margin-top:3rem; }
+    footer { text-align:center; padding:2.5rem 2rem; border-top:1px solid rgba(201,169,110,.1); margin-top:3rem; }
+    .ft-brand { color:var(--gold); font-size:1.1rem; letter-spacing:.3em; font-weight:bold; margin-bottom:.4rem; }
+    .ft-tag   { color:rgba(255,255,255,.35); font-size:.75rem; font-style:italic; margin-bottom:1.3rem; }
+    .ft-addr  { color:rgba(255,255,255,.42); font-size:.75rem; line-height:1.7; letter-spacing:.03em; margin-bottom:1.3rem; }
+    .ft-copy  { color:rgba(255,255,255,.2); font-size:.7rem; letter-spacing:.05em; }
   </style>
 </head>
 <body>
@@ -126,7 +130,18 @@
   </div>
 </div>
 
-<footer>© 2025 VAULX Store · The finest things, delivered to you.</footer>
+<footer>
+  <div class="ft-brand">VAULX</div>
+  <div class="ft-tag">The finest things, delivered to you.</div>
+  <div class="ft-addr">
+    <!-- ⬇ PALITAN MO ITO NG TOTOONG ADDRESS MO ⬇ -->
+    123 Main Street, Suite 100<br>
+    Billings, MT 59101<br>
+    United States
+    <!-- ⬆ PALITAN MO ITO ⬆ -->
+  </div>
+  <div class="ft-copy">© 2025 VAULX Store. All rights reserved.</div>
+</footer>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
@@ -156,43 +171,54 @@ const SALE_PCT = 25;
    Missing images fall back to the emoji placeholder automatically —
    nothing breaks while you're still uploading.
 ═══════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   IMAGE FOLDER
+   Ang mga larawan mo ay nasa ROOT ng repo (katabi ng shop.html),
+   kaya walang folder prefix. Kung ililipat mo sila sa isang /images/
+   folder sa hinaharap, palitan mo lang ito ng:  const IMG_DIR = "/images/";
+═══════════════════════════════════════════════════════════════════════ */
+const IMG_DIR = "/";
+
 const PRODUCTS = [
   { id:1, name:"One Love Beauty Vitamin B Enzyme Cleansing Oil + Makeup Remover 4oz",
     retail:36.40, stock:10, icon:"🧴",
-    imgs:["/images/cleansing-oil-1.jpg","/images/cleansing-oil-2.jpg","/images/cleansing-oil-3.jpg"] },
+    imgs:["cleansing-oil-1.jpg","cleansing-oil-2.jpg","cleansing-oil-3.jpg"] },
 
   { id:2, name:"Gen See Mixed Media Matte Liquid Eyeshadow – Rose Water",
     retail:28.30, stock:10, icon:"💄",
-    imgs:["/images/eyeshadow-1.jpg","/images/eyeshadow-2.jpg","/images/eyeshadow-3.jpg"] },
+    imgs:["eyeshadow-1.jpg","eyeshadow-2.jpg","eyeshadow-3.jpg"] },
 
   { id:3, name:"Keratin Restorative Hair Mask 500ml / 16.9 fl.oz",
     retail:31.00, stock:19, icon:"💆",
-    imgs:["/images/hair-mask-1.jpg","/images/hair-mask-2.jpg","/images/hair-mask-3.jpg"] },
+    imgs:["hair-mask-1.jpg","hair-mask-2.jpg","hair-mask-3.jpg"] },
 
   { id:4, name:"Typology Tinted Serum with Vitamin C, Squalane & Aloe Vera – Type 4 Tan",
     retail:47.40, stock:8, icon:"✨",
-    imgs:["/images/tinted-serum-1.jpg"] },
+    imgs:["tinted-serum-1.jpg","tinted-serum-2.jpg","tinted-serum-3.jpg"] },
 
   { id:5, name:"MusselBound Adhesive Tile Mat Mini Roll 3\" × 15'",
     retail:19.37, stock:14, icon:"🏠",
-    imgs:["/images/tile-mat-1.jpg","/images/tile-mat-2.jpg","/images/tile-mat-3.jpg"] },
+    imgs:["tile-mat-1.jpg","tile-mat-2.jpg","tile-mat-3.jpg"] },
 
   { id:6, name:"Prince of Peace Organic White Tea 20 bags",
     retail:4.51, stock:38, icon:"🍵",
-    imgs:["/images/white-tea.jpg"] },
+    imgs:["white-tea.jpg","white-tea-1.jpg","white-tea-2.jpg","white-tea-3.jpg"] },
 
   { id:7, name:"ENHYPEN ROMANCE: UNTOLD 2nd Full Album Standard 3 Ver Set",
     retail:28.49, stock:4, icon:"💿",
-    imgs:["/images/enhypen-1.jpg","/images/enhypen-2.jpg","/images/enhypen-3.jpg"] },
+    imgs:["enhypen-1.jpg","enhypen-2.jpg","enhypen-3.jpg"] },
 
   { id:8, name:"Cirkul 12oz Plastic Water Bottle Starter Kit + 2 Flavor Cartridges",
     retail:22.48, stock:50, icon:"💧",
-    imgs:["/images/cirkul-1.jpg","/images/cirkul-2.jpg","/images/cirkul-3.jpg"] },
+    imgs:["cirkul-1.jpg","cirkul-2.jpg","cirkul-3.jpg"] },
 
   { id:9, name:"Typology Serum Mascara with 1% Pea Peptides + Castor Oil",
     retail:30.80, stock:5, icon:"👁️",
-    imgs:["/images/mascara-1.jpg"] }
+    imgs:["mascara-1.jpg","mascara-2.jpg","mascara-3.jpg"] }
 ];
+
+/* Prepend the folder path to every filename */
+PRODUCTS.forEach(p => { p.imgs = (p.imgs || []).map(f => IMG_DIR + f); });
 
 const salePrice = p => +(p.retail * (1 - SALE_PCT/100)).toFixed(2);
 const savings   = p => +(p.retail - salePrice(p)).toFixed(2);
