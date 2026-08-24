@@ -42,11 +42,11 @@
     .req p { color:rgba(255,255,255,.44); font-size:.79rem; line-height:1.65; }
     .req-tag { display:inline-block; background:rgba(212,175,55,.14); border:1px solid rgba(212,175,55,.3); color:var(--gold); font-size:.56rem; letter-spacing:.12em; padding:.14rem .42rem; border-radius:2px; margin-left:.4rem; vertical-align:middle; font-weight:bold; }
 
-    .form-wrap { background:var(--gray); border:1px solid rgba(212,175,55,.22); border-radius:4px; padding:1rem; }
-    .form-wrap iframe { width:100%; min-height:1100px; border:0; border-radius:3px; display:block; background:#fff; }
-    .hint-line { color:rgba(255,255,255,.3); font-size:.72rem; margin-top:.7rem; }
-    .form-fallback { text-align:center; padding:3rem 1.5rem; }
-    .form-fallback p { color:rgba(255,255,255,.45); font-size:.85rem; line-height:1.7; margin-bottom:1.5rem; }
+    .apply-box { background:linear-gradient(160deg,#151515 0%,#0e0e0e 100%); border:1px solid rgba(212,175,55,.3); border-radius:4px; padding:3rem 2rem; text-align:center; margin-bottom:3.5rem; box-shadow:0 4px 30px rgba(212,175,55,.05); }
+    .apply-ic { font-size:2.2rem; margin-bottom:1rem; }
+    .apply-box h3 { color:var(--gold); font-size:1rem; letter-spacing:.2em; margin-bottom:.9rem; }
+    .apply-box p { color:rgba(255,255,255,.45); font-size:.84rem; line-height:1.75; max-width:460px; margin:0 auto 2rem; }
+    .apply-note { color:rgba(255,255,255,.25); font-size:.7rem; margin-top:1rem; letter-spacing:.03em; }
     .btn-gold { display:inline-block; padding:.85rem 2.4rem; background:var(--gold-grad); color:#1a1200; text-decoration:none; font-size:.8rem; letter-spacing:.16em; font-weight:bold; border-radius:2px; box-shadow:0 2px 10px rgba(212,175,55,.2); transition:box-shadow .25s,transform .15s; }
     .btn-gold:hover { box-shadow:0 3px 18px rgba(212,175,55,.45); transform:translateY(-1px); }
 
@@ -160,17 +160,13 @@
   <div class="sect-title">APPLY NOW</div>
   <div class="sect-sub">Takes about 3 minutes · We reply within 1–2 business days</div>
 
-  <div class="form-wrap">
-    <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSf4LG7HzX3OuvACEY553oSPu0hnV4ik2_4Ve3A2OIbyut1-bA/viewform?embedded=true"
-      width="100%" height="1100" frameborder="0"
-      marginheight="0" marginwidth="0"
-      title="VAULX Reseller Application">Loading…</iframe>
-  </div>
-
-  <div style="text-align:center; margin-top:1rem;">
-    <a class="btn-gold" id="direct-link" href="#" target="_blank" rel="noopener">OPEN FORM IN NEW TAB</a>
-    <div class="hint-line">Form not loading? Open it directly.</div>
+  <div class="apply-box">
+    <div class="apply-ic">📋</div>
+    <h3>Reseller Application</h3>
+    <p>Takes about 3 minutes. Have your resale certificate and business registration
+       ready to upload. We review every application and reply within 1–2 business days.</p>
+    <a class="btn-gold" id="apply-btn" href="#" target="_blank" rel="noopener">APPLY NOW →</a>
+    <div class="apply-note">Opens in a new tab · A Google account is required to upload documents</div>
   </div>
 
   <div class="steps">
@@ -227,8 +223,8 @@
 ═══════════════════════════════════════════════════════════════════ */
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf4LG7HzX3OuvACEY553oSPu0hnV4ik2_4Ve3A2OIbyut1-bA/viewform";
 
-const link = document.getElementById('direct-link');
-if (link) link.href = FORM_URL;
+const btn = document.getElementById('apply-btn');
+if (btn) btn.href = FORM_URL;
 </script>
 
 </body>
