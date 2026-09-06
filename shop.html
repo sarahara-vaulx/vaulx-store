@@ -83,6 +83,14 @@
     .phone-code { flex:0 0 90px; background:#0a0a0a; border:1px solid rgba(212,175,55,.22); color:var(--gold); font-size:.86rem; padding:.6rem .5rem; border-radius:2px; text-align:center; font-family:Georgia,serif; }
     .hint { font-size:.66rem; color:rgba(255,255,255,.28); margin-top:.3rem; line-height:1.5; }
 
+    .rcode-box { background:linear-gradient(160deg,rgba(212,175,55,.09),rgba(212,175,55,.03)); border:1px solid rgba(212,175,55,.32); border-radius:3px; padding:1rem 1.1rem; margin-bottom:1.4rem; }
+    .rcode-box .field { margin-bottom:0; }
+    .rcode-box input { text-transform:uppercase; letter-spacing:.1em; font-weight:bold; }
+    .rcode-hd { font-size:.66rem; letter-spacing:.18em; color:var(--gold); margin-bottom:.7rem; display:flex; align-items:center; gap:.4rem; }
+    .rcode-note { font-size:.68rem; color:rgba(255,255,255,.35); margin-top:.6rem; line-height:1.55; }
+    .rcode-note a { color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(212,175,55,.3); }
+    .rcode-note a:hover { border-bottom-color:var(--gold); }
+
     .total-box { background:rgba(212,175,55,.06); border:1px solid rgba(212,175,55,.18); border-radius:2px; padding:.8rem 1rem; margin:1.4rem 0 1.1rem; }
     .total-line { display:flex; justify-content:space-between; align-items:center; }
     .total-label { font-size:.72rem; letter-spacing:.1em; color:rgba(255,255,255,.45); }
@@ -120,7 +128,7 @@
 
 <div class="hero">
   <h1>VAULX SHOP</h1>
-  <p>On-hand items · Ready to ship · Direct checkout</p>
+  <p>Wholesale pricing · Approved resellers only · Ready to ship</p>
   <div class="flash" id="flash-tag">LIMITED SALE</div>
 </div>
 
@@ -134,6 +142,17 @@
     <div class="mo-sub" id="mo-name">Loading…</div>
 
     <div class="err-msg" id="err-msg"></div>
+
+    <div class="rcode-box">
+      <div class="rcode-hd">🔑 RESELLER ACCESS CODE</div>
+      <div class="field">
+        <input id="f-rcode" type="text" placeholder="VX-XXXX-00" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="rcode-note">
+        Wholesale orders are for approved resellers only.
+        Don't have a code? <a href="/reseller.html">Apply here</a>.
+      </div>
+    </div>
 
     <div class="sect-hd">CONTACT DETAILS</div>
 
